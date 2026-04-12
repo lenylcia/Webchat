@@ -1,23 +1,24 @@
 /**
  DECLARATION LIST
- inbox           - stores all received messages
- outbox          - stores all sent messages
- inboxCount      - Tracks the number of messages in the inbox
- outboxCount     - Tracks the number of messages in the outbox
- firstName       - Stores the user's first name during registration
- lastName        - Stores the user's last name during registration
- username        - Stores the username entered during registration
- password        - Stores the password entered during registration
- cellPhone       - Stores the cell number entered during registration loginUser  
- username        - Stores the username entered during login
- loginPass       - Stores the password entered during login
- loggedIn        - Flag to indicate if login was successful
- messages        - Array of hard coded messages for the chat system
- choice          - Stores the user's menu selection
- scanner         - Reads user input from the console
- user            - Login object representing the registered user
- label           - Label used when printing inbox or outbox heading
- count           - Number of messages to display in printMessages()
+ inbox - saves all received messages
+ outbox  - saves all sent messages
+ inboxCount - Traces the number of messages in the inbox
+ outboxCount - Traces the number of messages in the outbox
+ firstName - the first name entered at registration
+ lastName  - the last name entered at registration
+ username  - the username entered at registration
+ password - the password entered at registration
+ cellPhone  - the cell phone entered at registration
+ loginUser  - the username entered at login
+ loginPass - the password entered at login
+ loggedIn  - used as a flag to show if login was successful
+ messages  - Array of hard coded messages for the chat system
+ choice   - keeps the user's menu selection
+ scanner - Reads user input from the console
+ user  - Login object representing the registered user
+ label  - Label used when printing inbox or outbox heading
+ count - Number of messages to display in printMessages()
+ genderChoice - Stores the user's gender selection
  */
 
 import java.util.Scanner;
@@ -25,15 +26,15 @@ import java.util.Scanner;
 public class Main {
 
     // Arrays to store messages
-    static Messages[] inbox    = new Messages[10];
-    static Message[] outbox   = new Message[10];
-    static int inboxCount     = 0;
-    static int outboxCount    = 0;
+    static Messages[] inbox     = new Messages[10];
+    static Messages[] outbox    = new Messages[10];
+    static int inboxCount       = 0;
+    static int outboxCount      = 0;
 
-    // sendMessage - marks message as sent, adds to outbox
-    public static String sendMessage(Message msg) {
-        if (!msg.checkMessageLength()) {
-            return "Message exceeds 10 words. Please reduce the message length.";
+    // send message - marks message as sent, adds to outbox
+    public static String sendMessage(Messages msg) {
+        if (msg.checkMessageLength()) {
+            return "Message is over 10 words in length. Please reduce the message length.";
         }
         if (outboxCount < outbox.length) {
             msg.setMessageSent(true);
@@ -44,19 +45,18 @@ public class Main {
         return "Outbox is full. Cannot send more messages.";
     }
 
-    // receiveMessage() - marks message as received, adds to inbox
-    public static String receiveMessage(Message msg) {
+    // receiveMessage - marks message as received, adds to inbox
+    public static String receiveMessage(Messages msg) {
         if (inboxCount < inbox.length) {
             msg.setMessageReceived(true);
-            Messages messages = null;
-            inbox[inboxCount] = messages;
+            inbox[inboxCount] = msg;
             inboxCount++;
             return "Message received from " + msg.getSender() + ".";
         }
         return "Inbox is full.";
     }
 
-    // markMessageAsRead() - finds message by ID, marks as read
+    // mark message as read - finds message by ID, marks as read
     public static String markMessageAsRead(int messageId) {
         for (int i = 0; i < inboxCount; i++) {
             if (inbox[i].getMessageId() == messageId) {
@@ -67,7 +67,7 @@ public class Main {
         return "Message ID " + messageId + " not found in inbox.";
     }
 
-    // printMessages() - prints all messages in a given array
+    // print messages - prints all messages in a given array
     public static void printMessages(Messages[] messages, int count, String label) {
         System.out.println("\n========== " + label + " (" + count + " messages) ==========");
         if (count == 0) {
@@ -83,34 +83,30 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        //welcome message
-        System.out.println("╔══════════════════════════════════════╗");
-        System.out.println("║    Get fimiliar with Webchat!   ║");
-        System.out.println("╚══════════════════════════════════════╝\n");
+        // Welcome message
+        System.out.println("Get familiar with Webchat!"); 
         
+        // Gender selection
         System.out.println("Are you Male or Female?");
-        System.out.print("Enter your choice: ");
         System.out.println("1. Male");
         System.out.println("2. Female");
-        System.out.print("3. other");
+        System.out.println("3. Other");
+        System.out.print("Enter your choice: ");
 
-            String genderChoice = scanner.nextLine().trim();
+        String genderChoice = scanner.nextLine().trim();
 
         if (genderChoice.equals("1")) {
-        System.out.println("\n -Handsome men use Webchat.... HI HANDSOME! care to stay?");
-        
-            } else if (genderChoice.equals("2")) {
-        System.out.println("\n -Beautiful women use Webchat.... HI BEAUTIFUL! care to have a chat?");
-        
-            } else if (genderChoice.equals("3")) {
-        System.out.println("\n Welcome to Webchat!");
-}
+            System.out.println("-Handsome men use Webchat.... HI HANDSOME! Welcome to Webchat");
+        } else if (genderChoice.equals("2")) {
+            System.out.println("-Beautiful women use Webchat.... HI BEAUTIFUL! Welcome to Webchat");
+        } else {
+            System.out.println(" Welcome to Webchat!");
+        }
 
-System.out.println();
+        System.out.println();
 
-
-        //REGISTRATION
-        System.out.println("=== REGISTRATION ===");
+        // REGISTRATION
+        System.out.println("REGISTRATION");
         System.out.print("First Name    : ");
         String firstName = scanner.nextLine();
         System.out.print("Last Name     : ");
@@ -126,13 +122,13 @@ System.out.println();
         System.out.println("\n" + user.registerUser());
 
         if (!user.registerUser().startsWith("Username successfully")) {
-            System.out.println("\nRegistration failed. Please restart and try again.");
+            System.out.println("Registration failed. Please restart and try again.");
             scanner.close();
             return;
         }
 
         // LOGIN
-        System.out.println("\n=== LOGIN ===");
+        System.out.println("LOGIN");
         System.out.print("Enter username : ");
         String loginUser = scanner.nextLine();
         System.out.print("Enter password : ");
@@ -147,13 +143,13 @@ System.out.println();
             return;
         }
 
-        // MESSAGING
-        Message[] messages = {
-            new Message(1, "mickayla", "ameera",     "+27821234567", "Hey ameera are you coming tonight?",   "2025-03-28 08:00"),
-            new Message(2, "ameera",   "mickayla",   "+27839876543", "Yes I will be there at 7pm.",       "2025-03-28 08:05"),
-            new Message(3, "mickayla", "sbahle", "+27761112233", "sbahle please bring snacks.",      "2025-03-28 08:10"),
-            new Message(4, "kumbukani",  "mickayla",   "+27839876543", "mickayla what time does it start?",    "2025-03-28 08:15"),
-            new Message(5, "mickayla", "kumbukani",    "+27724445566", "It starts at 7,see you then kumbukani.", "2025-03-28 08:20"),
+        // MESSAGING - hardcoded messages
+        Messages[] messages = {
+            new Messages(1, "mickayla",  "ameera",    "+27821234567", "Hey ameera are you coming tonight?",      "2025-03-28 08:00"),
+            new Messages(2, "ameera",    "mickayla",  "+27839876543", "Yes I will be there at 7pm.",             "2025-03-28 08:05"),
+            new Messages(3, "mickayla",  "sbahle",    "+27761112233", "Sbahle please bring snacks.",             "2025-03-28 08:10"),
+            new Messages(4, "kumbukani", "mickayla",  "+27839876543", "Mickayla what time does it start?",       "2025-03-28 08:15"),
+            new Messages(5, "mickayla",  "kumbukani", "+27724445566", "It starts at 7 see you then kumbukani.", "2025-03-28 08:20"),
         };
 
         System.out.println("SENDING MESSAGES");
@@ -174,12 +170,12 @@ System.out.println();
         // INTERACTIVE MENU
         int choice = 0;
         while (choice != 4) {
-            System.out.println("========== MENU ==========");
-            System.out.print("Choose an option: ");
+            System.out.println("MENU");
             System.out.println("1. View Inbox");
             System.out.println("2. View Outbox");
             System.out.println("3. Mark a message as read");
             System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
 
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
@@ -195,7 +191,7 @@ System.out.println();
                             scanner.next();
                         }
                         break;
-                    case 4: System.out.println("Goodbye!"); break;
+                    case 4: System.out.println("goodbye, see you next time"); break;
                     default: System.out.println("Invalid option. Please choose 1-4.");
                 }
             } else {
@@ -205,9 +201,5 @@ System.out.println();
         }
 
         scanner.close();
-    }
-
-    private static void printMessages(Message[] outbox, int outboxCount, String outbox0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
