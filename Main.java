@@ -33,7 +33,7 @@ public class Main {
 
     // send message - marks message as sent, adds to outbox
     public static String sendMessage(Messages msg) {
-        if (msg.checkMessageLength()) {
+        if (!msg.checkMessageLength()) {
             return "Message is over 10 words in length. Please reduce the message length.";
         }
         if (outboxCount < outbox.length) {
