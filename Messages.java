@@ -1,20 +1,20 @@
 /**
  DECLARATION LIST
- messageId        : int      - Unique identifier for each message
- sender           : String   - The name of the person sending the message
- recipient        : String   - The name of the person receiving the message
- recipientPhone   : String   - The phone number of the recipient
- messagePayload   : String   - The actual text content of the message
- timestamp        : String   - The date and time the message was created
- messageSent      : boolean  - Flag to indicate if the message has been sent
- messageReceived  : boolean  - Flag to indicate if the message has been received
- messageRead      : boolean  - Flag to indicate if the message has been read
- words            : String[] - Array used to split and count words in the message
+ message Id - Unique identifier for each message
+ sender - The name of the person sending the message
+ recipient - The name of the person receiving the message
+ recipientPhone - The phone number of the recipient
+ messagePayload - The actual text content of the message
+ timestamp - The date and time the message was sent
+ messageSent - Used a flag verify if the message has been sent
+ messageReceived - Used as a Flag to verify if the message has been received
+ messageRead  - Used as a Flag to verify if the message has been read
+ words  - Array used to split and count words in the message
  */
-
+ 
 public class Messages {
 
-    // Instance variables
+    //Instance variables
     private int     messageId;
     private String  sender;
     private String  recipient;
@@ -25,7 +25,7 @@ public class Messages {
     private boolean messageReceived;
     private boolean messageRead;
 
-    // Constructor
+    //Constructor
     public Messages(int messageId, String sender, String recipient, String recipientPhone, String messagePayload, String timestamp) {
         this.messageId       = messageId;
         this.sender          = sender;
@@ -38,7 +38,7 @@ public class Messages {
         this.messageRead     = false;
     }
 
-    // Getters
+    //Getters
     public int     getMessageId()      { return messageId; }
     public String  getSender()         { return sender; }
     public String  getRecipient()      { return recipient; }
@@ -54,13 +54,13 @@ public class Messages {
     public void setMessageReceived(boolean received)  { this.messageReceived = received; }
     public void setMessageRead(boolean read)          { this.messageRead = read; }
 
-    // checkMessageLength - message must be no more than 10 words
+    // check message length - message must be no more than 10 words
     public boolean checkMessageLength() {
         String[] words = messagePayload.trim().split("\\s+");
         return words.length <= 10;
     }
 
-    // printMessagePayload() - returns full message details as a string
+    // print message payload - returns full message details as a string
     public String printMessagePayload() {
         return "--------------------------------------------\n"
              + "  Message ID   : " + messageId + "\n"
